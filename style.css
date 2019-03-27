@@ -1,0 +1,23 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+}
+
+.navbar {
+    display: block;
+}
+.task {
+    border: 1px solid gray;
+    max-width: 700px;
+    padding: 10px;
+    display: block;
+}
+
+.task .taskName,
+.task .taskDescription,
+.task .taskPriority {
+    border: none;
+}
+
+.task .taskName {
+    font-weight: bold;
+}
