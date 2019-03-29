@@ -3,37 +3,36 @@ $(function() {
     'use strict';
     
 
-
-    var taskId = 0; //Счётчик задач (будет получаться от сервера)
+    var taskId;
     var tasksMessage;
     getTasks(); //Сразу проверяем базу данных на наличие задач.
 
     function loadTask(task) {
         /* Добавляет задачу в конец списка. */
-        console.log('Start loading');
+        //console.log('Start loading');
         //console.log(task.name);
-        let taskBox = '<li class="task" id="task-0'+ taskId +'">'+
+        let taskBox = '<li class="task" id="'+ task.id +'">'+
         '<input class="isDone" type="checkbox" ';
         if(task.isDone) {
             taskBox +='checked';
         }
              taskBox+='><input class="taskName" type="text" placeholder="Task Name" value="'+ task.name +'">'+
              '<textarea class="taskDescription" placeholder="Task Description">'+ task.description +'</textarea>'+
-             '<select class="taskPriority">'+'<option';
+             '<select class="taskPriority">'+'<option ';
 
-            if(task.priority==1) {
+            if(task.priority=="High Priority") {
                 taskBox += 'selected';
             } 
             taskBox += '>High Priority</option>'+
-            '<option';
+            '<option ';
 
-            if(task.priority==2) {
+            if(task.priority=="Medium Priority") {
                 taskBox += 'selected';
             } 
             taskBox +='>Medium Priority</option>'+
-            '<option';
+            '<option ';
 
-            if(task.priority==3) {
+            if(task.priority=="Low Priority") {
                 taskBox += 'selected';
             } 
 
@@ -44,7 +43,7 @@ $(function() {
              '<button class="delete-button">Delete</button>'+
      '</li>';
      $('.task-list').append(taskBox);
-     console.log('task has been loaded');
+     //console.log('task has been loaded');
      // Задача добавлена
     }
 
@@ -91,7 +90,7 @@ $(function() {
 
     function removeTask(id) {
         /* Удаляет задачу */
-        $(id).remove();
+        saveTaskList(id, 'remove');
     }
 
     function getTasks() {
@@ -110,45 +109,74 @@ $(function() {
                 //console.log(tasksMessage);
                 tasksMessage = JSON.parse(xhr.responseText);
                 taskId = tasksMessage.taskId;
-                tasks = tasksMessage.tasks;
+                //tasks = tasksMessage.tasks;
                 //console.log(tasks);
-
-                for(var i=0; i<tasks.length; i++) {
-                    loadTask(tasks[i]);
-                }
+                if (tasksMessage.taskId > 0) {
+                    for(var i=0; i<tasksMessage.tasks.length; i++) {
+                        loadTask(tasksMessage.tasks[i]);
+                    }
+                }   
+            
             }
         }
     }   
 
 
-    function saveTask(id) {
+    function saveTaskList(id, saveType) {
         /* Отправляет задачу на сервер*/
-        var newTask = {
-            id: $(id).attr('id'),
-            name: $(id +' > .taskName').attr('value'),
-            description: $(id +' > .taskDescription').val(),
-            isDone: $(id +' > .isDone').is(':checked'),
-            priority: $(id +' > .taskPriority').val(),
-            creationDate: $(id +' > .date-time').text()
-        }
-        tasksMessage.taskId=taskId;
-        tasksMessage.tasks.push(newTask);
-        //var toServer = JSON.stringify(tasksMessage); //Заворачиваем нашу коллекцию тасков в JSON
-        //console.log('saving on');
+        var targetElem;
+        for (let i=0; i<tasksMessage.tasks.length; i++) {
+            if ($(id).attr('id') == tasksMessage.tasks[i].id) {
+                console.log('search');
+                if (saveType == 'remove') {
+                    targetElem = i;
+                }
+                if (saveType == 'new') {
+                    saveType = 'edit';
+                    targetElem = i;
+                }
+            }
+        }   
+            var newTask = {
+                id: $(id).attr('id'),
+                name: $(id +' > .taskName').attr('value'),
+                description: $(id +' > .taskDescription').val(),
+                isDone: $(id +' > .isDone').is(':checked'),
+                priority: $(id +' > .taskPriority').val(),
+                creationDate: $(id +' > .date-time').text()
+            }
+            console.log(id);
+            if (saveType == 'new') {
+                tasksMessage.taskId=taskId;
+                tasksMessage.tasks.push(newTask);
+            }
+
+            if (saveType == 'edit') {
+                tasksMessage.tasks[targetElem] = newTask;
+                console.log(targetElem);
+            }
+
+            if (saveType == 'remove') {
+                tasksMessage.tasks.splice(targetElem, 1);
+                $(id).remove();
+            }
+        console.log(tasksMessage.tasks);
+        
+        
+        var toServer = JSON.stringify(tasksMessage); //Заворачиваем нашу коллекцию тасков в JSON
+        console.log('saving on');
 
         var xhrs = new XMLHttpRequest();
 
         xhrs.open("POST", '/savetasklist', true);
-        xhrs.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        xhrs.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         xhrs.onreadystatechange = function() {
-            console.log(xhrs.readyState);
             if (xhrs.readyState != 4) return;
-        //console.log(toServer);
-        xhrs.send(taskMessage);
-        //console.log(xhrs.readyState);
-        //console.log(xhrs.responseText);
+        }
 
-    }
+        xhrs.send(toServer);
+
+    
     }
 
     function sortTasks(fromNew) {
@@ -161,14 +189,18 @@ $(function() {
 
     $('.add-new').on('click', addTask); //Нажатие кнопки New Task создаёт новую задачу
 
+    $('.refresh').on('click', function() {
+        console.log(tasksMessage.tasks);
+    });
+
     $(document).on('click', '.delete-button', function(event) {
         let id = '#' + $(this).parent().attr('id');
-        removeTask(id);
+        saveTaskList(id, 'remove');
     }); //Нажатие кнопки Delete удаляет текущую задачу*/
 
     $(document).on('click', '.save-button', function(event) {
         let id = '#' + $(this).parent().attr('id');
-        saveTask(id);
+        saveTaskList(id, 'new');
     }); //Нажатие кнопки save инициирует отправку данных на сервер
 
     function addTask() {
