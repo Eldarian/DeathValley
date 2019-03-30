@@ -213,21 +213,56 @@ $(function() {
     }
 
     function filterTasks(prior) {
-        /* Меняет отображение элементов списка в зависимости от значения приоритета. */
-        
-
+        /* Меняет отображение элементов списка в зависимости от значения приоритета. onchange = 'filterTasks("low");'*/
+        console.log(prior);
         for(let i=0; i<taskList.tasks.length; i++) {
             if (taskList.tasks[i].priority==prior) {
-                $('#'+taskList.tasks[i].id).css('{display: block;}');
-        } else {
-            $('#'+taskList.tasks[i].id).css('{display: hide;}');
+                if ($('#'+prior).is(':checked'))
+                    $('#'+taskList.tasks[i].id).css('{display: block;}');
+                    console.log('display ' + prior);
+                } else {
+                $('#'+taskList.tasks[i].id).css('{display: hide;}');
+                console.log('hide ' + prior);
             }
         }
     }
 
-    $('#high').on('click', filterTasks($('#high').is(':checked')));
-    $('#medium').on('click', filterTasks($('#medium').is(':checked')));
-    $('#low').on('click', filterTasks($('#low').is(':checked')));
+    $('#high').change(function(){
+        for(let i=0; i<taskList.tasks.length; i++) {
+             if (taskList.tasks[i].priority=='High Priority') {
+                 if ($(this).is(':checked')) {
+                     $('#'+taskList.tasks[i].id).css('display', 'block');
+                     
+                 } else {
+                    $('#'+taskList.tasks[i].id).css('display', 'none');
+                }
+            }
+        }
+    });
+    $('#medium').change(function(){
+        for(let i=0; i<taskList.tasks.length; i++) {
+             if (taskList.tasks[i].priority=='Medium Priority') {
+                 if ($(this).is(':checked')) {
+                     $('#'+taskList.tasks[i].id).css('display', 'block');
+                     
+                 } else {
+                    $('#'+taskList.tasks[i].id).css('display', 'none');
+                }
+            }
+        }
+    });
+    $('#low').change(function(){
+        for(let i=0; i<taskList.tasks.length; i++) {
+             if (taskList.tasks[i].priority=='Low Priority') {
+                 if ($(this).is(':checked')) {
+                     $('#'+taskList.tasks[i].id).css('display', 'block');
+                     
+                 } else {
+                    $('#'+taskList.tasks[i].id).css('display', 'none');
+                }
+            }
+        }
+    });
 
     $('.add-new').on('click', addTask); //Нажатие кнопки New Task создаёт новую задачу
 
@@ -242,7 +277,7 @@ $(function() {
     $(document).on('click', '.save-button', function(event) {
         let id = '#' + $(this).parent().attr('id');
         saveTaskList(id, 'new');
-        sendToServer();
+        sendToServer(); 
     }); //Нажатие кнопки save инициирует отправку данных на сервер
 
    

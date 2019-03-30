@@ -1,5 +1,6 @@
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: #77c5d3;
 }
 
 .nav-drawer,
@@ -124,7 +125,6 @@ button:active {
 
 content {
     display: block;
-    background: #77c5d3;
     margin-top: -130px;
     padding-top: 40px;
 }
@@ -135,6 +135,7 @@ content {
     flex-direction: column;
     justify-content: center;
 }
+
 .task {
     position: relative;
     background: #ffffff;
