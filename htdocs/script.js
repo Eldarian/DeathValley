@@ -10,6 +10,7 @@ $(function() {
 
     function loadTask(task) {
         /* Добавляет задачу в конец списка. */
+        console.log('load ' + task.name)
         let taskBox = '<li class="task" id="'+ task.id +'">'+
         '<input class="input isDone" type="checkbox" ';
         if(task.isDone) {
@@ -118,7 +119,7 @@ $(function() {
         let taskBox;
          taskBox = '<li class="task" id="task-'+ taskList.currentId +'" data-time="'+ Date() +'">'+
              '<input class="input isDone" type="checkbox">'+
-             '<input class="input taskName" type="text" placeholder="Task Name" required">'+
+             '<input class="input taskName" type="text" placeholder="Task Name" />'+
              '<textarea class="taskDescription" placeholder="Task Description"></textarea>'+
              '<select class="input taskPriority">'+
                  '<option>High Priority</option>'+
@@ -130,7 +131,7 @@ $(function() {
              '<button class="delete-button"><img src="img/delete.png" style="height: 20px; width: 20px;" alt="Delete"></button>'+
      '</li>';
      $('.task-list').append(taskBox);
-     $('#task-'+ taskList.currentId + ' > .taskName').focus();
+     //$('#task-'+ taskList.currentId + ' > .taskName').focus();
      $('#task-'+ taskList.currentId + ' > .save-button').css('display', 'none');
      // Задача добавлена
      }
@@ -152,7 +153,7 @@ $(function() {
         }   
             var newTask = {
                 id: $(id).attr('id'),
-                name: $(id +' > .taskName').attr('value'),
+                name: $(id +' > .taskName').val(),
                 description: $(id +' > .taskDescription').val(),
                 isDone: $(id +' > .isDone').is(':checked'),
                 priority: $(id +' > .taskPriority').val(),
@@ -202,14 +203,14 @@ $(function() {
             for (let i=0; i<taskList.tasks.length; i++) {
                 loadTask(taskList.tasks[i]);
                 $(".sort").empty();
-                $(".sort").append('<img src="img/sort-descending.png" style="height: 50px; width: 50px;" alt="New" />');
+                $(".sort").append('<img src="img/sort-down.png" style="height: 50px; width: 50px;" alt="New" />');
                 fromNew = false;
             }
         } else {
             for (let i=taskList.tasks.length-1; i>=0;  i--) {
                 loadTask(taskList.tasks[i]);
                 $(".sort").empty();
-                $(".sort").append('<img src="img/sort-down.png" style="height: 50px; width: 50px;" alt="Old" />');
+                $(".sort").append('<img src="img/sort-descending.png" style="height: 50px; width: 50px;" alt="Old" />');
                 fromNew=true;
             }
         }
