@@ -11,13 +11,13 @@ $(function() {
     function loadTask(task) {
         /* Добавляет задачу в конец списка. */
         let taskBox = '<li class="task" id="'+ task.id +'">'+
-        '<input class="isDone" type="checkbox" ';
+        '<input class="input isDone" type="checkbox" ';
         if(task.isDone) {
             taskBox +='checked';
         }
-             taskBox+='><input class="taskName" type="text" placeholder="Task Name" value="'+ task.name +'">'+
-             '<textarea class="taskDescription" placeholder="Task Description">'+ task.description +'</textarea>'+
-             '<select class="taskPriority">'+'<option ';
+             taskBox+='><input class="input taskName" type="text" placeholder="Task Name" value="'+ task.name +'">'+
+             '<textarea class="input taskDescription" placeholder="Task Description">'+ task.description +'</textarea>'+
+             '<select class="input taskPriority">'+'<option ';
 
             if(task.priority=="High Priority") {
                 taskBox += 'selected';
@@ -38,11 +38,10 @@ $(function() {
             taskBox +='>Low Priority</option>'+
              '</select> '+
              '<p class="date-time">'+ task.creationDate +'</p>'+
-             '<button class="save-button">Save</button>'+
-             '<button class="delete-button">Delete</button>'+
+             '<button class="save-button" style="display: none;"><img src="img/save-icon.png" style="height: 20px; width: 20px;" alt="Save"></button>'+
+             '<button class="delete-button"><img src="img/delete.png" style="height: 20px; width: 20px;" alt="Delete"></button>'+
      '</li>';
      $('.task-list').append(taskBox);
-     //console.log('task has been loaded');
      // Задача добавлена
     }
 
@@ -117,20 +116,22 @@ $(function() {
         taskList.currentId++;
         let curTime = curTimes(); //Текущее время
         let taskBox;
-         taskBox = '<li class="task" id="task-0'+ taskList.currentId +'" data-time="'+ Date() +'">'+
-             '<input class="isDone" type="checkbox">'+
-             '<input class="taskName" type="text" placeholder="Task Name" value="Task '+ taskList.currentId +'">'+
+         taskBox = '<li class="task" id="task-'+ taskList.currentId +'" data-time="'+ Date() +'">'+
+             '<input class="input isDone" type="checkbox">'+
+             '<input class="input taskName" type="text" placeholder="Task Name" required">'+
              '<textarea class="taskDescription" placeholder="Task Description"></textarea>'+
-             '<select class="taskPriority">'+
+             '<select class="input taskPriority">'+
                  '<option>High Priority</option>'+
                  '<option>Medium Priority</option>'+
                  '<option>Low Priority</option>'+
              '</select> '+
              '<p class="date-time">'+ curTime +'</p>'+
-             '<button class="save-button">Save</button>'+
-             '<button class="delete-button">Delete</button>'+
+             '<button class="save-button"><img src="img/save-icon.png" style="height: 20px; width: 20px;" alt="Save"></button>'+
+             '<button class="delete-button"><img src="img/delete.png" style="height: 20px; width: 20px;" alt="Delete"></button>'+
      '</li>';
      $('.task-list').append(taskBox);
+     $('#task-'+ taskList.currentId + ' > .taskName').focus();
+     $('#task-'+ taskList.currentId + ' > .save-button').css('display', 'none');
      // Задача добавлена
      }
 
@@ -200,32 +201,34 @@ $(function() {
         if (fromNew == true) {
             for (let i=0; i<taskList.tasks.length; i++) {
                 loadTask(taskList.tasks[i]);
-                $(".sort").text('From Oldest');
+                $(".sort").empty();
+                $(".sort").append('<img src="img/sort-descending.png" style="height: 50px; width: 50px;" alt="New" />');
                 fromNew = false;
             }
         } else {
             for (let i=taskList.tasks.length-1; i>=0;  i--) {
                 loadTask(taskList.tasks[i]);
-                $(".sort").text('From Newest');
+                $(".sort").empty();
+                $(".sort").append('<img src="img/sort-down.png" style="height: 50px; width: 50px;" alt="Old" />');
                 fromNew=true;
             }
         }
     }
 
-    function filterTasks(prior) {
-        /* Меняет отображение элементов списка в зависимости от значения приоритета. onchange = 'filterTasks("low");'*/
-        console.log(prior);
-        for(let i=0; i<taskList.tasks.length; i++) {
-            if (taskList.tasks[i].priority==prior) {
-                if ($('#'+prior).is(':checked'))
-                    $('#'+taskList.tasks[i].id).css('{display: block;}');
-                    console.log('display ' + prior);
-                } else {
-                $('#'+taskList.tasks[i].id).css('{display: hide;}');
-                console.log('hide ' + prior);
-            }
-        }
-    }
+    // function filterTasks(prior) {
+    //     /* Меняет отображение элементов списка в зависимости от значения приоритета. onchange = 'filterTasks("low");'*/
+    //     console.log(prior);
+    //     for(let i=0; i<taskList.tasks.length; i++) {
+    //         if (taskList.tasks[i].priority==prior) {
+    //             if ($('#'+prior).is(':checked'))
+    //                 $('#'+taskList.tasks[i].id).css('{display: block;}');
+    //                 console.log('display ' + prior);
+    //             } else {
+    //             $('#'+taskList.tasks[i].id).css('{display: hide;}');
+    //             console.log('hide ' + prior);
+    //         }
+    //     }
+    // }
 
     $('#high').change(function(){
         for(let i=0; i<taskList.tasks.length; i++) {
@@ -266,7 +269,7 @@ $(function() {
 
     $('.add-new').on('click', addTask); //Нажатие кнопки New Task создаёт новую задачу
 
-    $('.sort').on('click', sortTasks);
+    $('.sort').on('click', sortTasks); //Вызов сортировки
 
     $(document).on('click', '.delete-button', function(event) {
         let id = '#' + $(this).parent().attr('id');
@@ -278,7 +281,13 @@ $(function() {
         let id = '#' + $(this).parent().attr('id');
         saveTaskList(id, 'new');
         sendToServer(); 
+        $(this).css('display', 'none');
     }); //Нажатие кнопки save инициирует отправку данных на сервер
 
+    $(document).on('change input', '.task-list > .task > .input', function() {
+        $('#' + $(this).parent().attr('id') + '> .save-button').css('display', 'inline-block');
+        console.log('#' + $(this).parent().attr('id') + ' > .save-button');
+        console.log('Save?')
+    });
    
 });

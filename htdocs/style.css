@@ -67,7 +67,19 @@ header {
 
 }
 
-button {
+.buttons button {
+
+    position: relative;
+    color: #fff;
+    padding: 20px;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-color: transparent;
+  }
+
+/* .buttons button {
     display: inline-block;
     font-family: arial,sans-serif;
     font-size: 11px;
@@ -83,44 +95,55 @@ button {
     transition: all .218s ease 0s;
 }
 
-button:hover {
+.buttons button:hover {
     color: rgb(24,24,24);
     border: 1px solid rgb(198,198,198);
     background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);
     box-shadow: 0 1px 2px rgba(0,0,0,.1);
 }
 
-button:active {
+.buttons button:active {
     color: rgb(51,51,51);
     border: 1px solid rgb(204,204,204);
     background: rgb(238,238,238) linear-gradient(rgb(238,238,238), rgb(224,224,224));
     box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;
-  }
+  } */
 
 .buttons {
     display: block;
     height: 100px;
-    width: 100px;
+    width: 200px;
     float: right;
     margin-right: 50px;
 }
 
 .add-new {
     height: 70px;
-    width: 100px;
+    width: 70px;
     color: rgb(255, 255, 255);
-    background: rgb(190, 34, 34) linear-gradient(#834b4b, #f51919);
+    background: rgb(190, 34, 34);
+    border-radius: 50%;
+    font-size: 25px;
+    margin: 15px auto;
+    display: block;
+    float: right;
 }
 
 .add-new:hover {
     color: rgb(255, 255, 255);
-    background: rgb(34, 190, 68) linear-gradient(#4b8372, #19f549);
+    background: rgb(34, 190, 68);
+    border-radius: 50%;
 }
 
 .sort {
-    height:25px;
-    width: 100px;
+    height: 70px;
+    width: 70px;
     margin-top: 5px; 
+    display: block;
+    float:left;
+    border: transparent;
+    background:transparent;
+    padding: 0;
 }
 
 content {
@@ -215,14 +238,21 @@ input:active, input:focus {
 .save-button {
     position: absolute;
     bottom: 20px;
-    width: 60px;
+    width: 20px;
     left: 75px;
+    border: transparent;
+    background: transparent;
+    padding: 0;
 }
 
 .delete-button {
     position: absolute;
     bottom: 20px;
-    width: 60px;
+    width: 20px;
     left: 150px;
+    border: transparent;
+    background: transparent;
+    padding: 0;
 }
+
 
