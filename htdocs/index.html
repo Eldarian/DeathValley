@@ -6,26 +6,22 @@
 </head>
 <body>
     <header>
-        <div class="logo"><img src="img/logo.png" class="logopic" alt="ToDo List"/></div>
-        <button class="nav-drawer">Menu</button>
-        <button class="add-new">New Task</button>
-        <label>Priority: <select multiple class="filter" name = "Filter">
-            <option>High Priority</option>
-            <option>Middle Priority</option>
-            <option>Low Priority</option>
-        </select></label>
-        <label>Sort By: <select class="sort">
-            <option>From Newest</option>
-            <option>From Oldest</option>
-        </select></label>
-        <button class="refresh">User</button>
+        <div class="wrapper">
+            <div class="logo"><img src="img/logo.png" class="logopic" alt="ToDo List"/></div>
+            <div class="title">ToDo List</div>
+            <div class="filter">
+                <input type="checkbox" id="high" checked><label for="high">High Priority</label>
+                <input type="checkbox" id="middle" checked><label for="middle">Middle Priority</label>
+                <input type="checkbox" id="low" checked><label for="low">Low Priority</label>
+            </div> 
+            <div class="buttons">
+                <button class="add-new">New Task</button>
+                <button class="sort">From Oldest</button>
+                <button class="refresh">User</button>
+            </div>
+        </div>
     </header>
-    <nav class="navbar">
-        <ul class="nav-list">
-            <li>Home</li> 
-            <li>Settings</li>
-        </ul>
-    </nav>
+    
     <content>
         <ul class="task-list"></ul>
     </content>

@@ -13,7 +13,7 @@ const db = low(adapter);
 var app = express();
 app.set('port', 3000);
 
-db.defaults({taskId: 0, tasks: []})
+db.defaults({currentId: 0, tasks: []})
   .write();
 
 
@@ -38,7 +38,6 @@ var jsonParser = bodyParser.json()
 app.post('/savetasklist', jsonParser, function (req, res) {
     
     console.log(req.body);
-    console.log(req.body.taskId);
     db.setState(req.body)
       .write();
     console.log('Got POST');

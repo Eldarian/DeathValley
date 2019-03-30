@@ -1,5 +1,5 @@
 body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .nav-drawer,
@@ -8,9 +8,35 @@ body {
     display: none;
 }
 
-.navbar {
+.filter {
     display: block;
-    height: 50px;
+    height: 100px;
+    width: 150px;
+    font-size: 12px;
+    float: left;
+}
+
+.filter input {
+    display: block;
+}
+
+.navbar {
+    display: none;
+}
+
+header {
+    height: 100px;
+    width: 100%;
+    margin:-10px auto;
+    z-index:1;
+}
+.wrapper {
+    height: 100px;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    background: #fff;
+
 }
 
 .logo {
@@ -22,22 +48,102 @@ body {
 .logo .logopic {
     background: url('/img/logo.png');
     background-size: contain;
+    height: 80px;
+    width: 80px;
+    margin: 10px;
+
+}
+
+.title {
+    display: block;
+    float:left;
+    width: 100px;
+    font-size: 20pt;
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+    margin-top: 20px;
+
+}
+
+button {
+    display: inline-block;
+    font-family: arial,sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    color: rgb(68,68,68);
+    text-decoration: none;
+    user-select: none;
+    padding: .2em 1.2em;
+    outline: none;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 2px;
+    background: rgb(245,245,245) linear-gradient(#f4f4f4, #f1f1f1);
+    transition: all .218s ease 0s;
+}
+
+button:hover {
+    color: rgb(24,24,24);
+    border: 1px solid rgb(198,198,198);
+    background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
+
+button:active {
+    color: rgb(51,51,51);
+    border: 1px solid rgb(204,204,204);
+    background: rgb(238,238,238) linear-gradient(rgb(238,238,238), rgb(224,224,224));
+    box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;
+  }
+
+.buttons {
+    display: block;
     height: 100px;
     width: 100px;
+    float: right;
+    margin-right: 50px;
+}
 
+.add-new {
+    height: 70px;
+    width: 100px;
+    color: rgb(255, 255, 255);
+    background: rgb(190, 34, 34) linear-gradient(#834b4b, #f51919);
+}
+
+.add-new:hover {
+    color: rgb(255, 255, 255);
+    background: rgb(34, 190, 68) linear-gradient(#4b8372, #19f549);
+}
+
+.sort {
+    height:25px;
+    width: 100px;
+    margin-top: 5px; 
 }
 
 content {
+    display: block;
+    background: #77c5d3;
+    margin-top: -130px;
+    padding-top: 40px;
+}
+
+.task-list {
+    margin-top: 120px;
     display: flex;
     flex-direction: column;
-    background: #77c5d3;
+    justify-content: center;
 }
 .task {
+    position: relative;
     background: #ffffff;
-    max-width: 500px;
+    max-width: 1000px;
+    height: 120px;
     padding: 20px;
     display: block;
-    margin-bottom: 5px;
+    margin: 5px 20px;
+    /* margin-bottom: 5px; */
     box-shadow: 2px 3px 1px 0 rgba(0,0,0,0.3);
 }
 
@@ -45,35 +151,15 @@ content {
 .task .taskDescription,
 .task .taskPriority {
     border: none;
+    position: absolute;
 }
 
-/*.checkbox {
-	position:relative;
-	padding-left:25px;
-}
-.checkbox input[type=checkbox] {
-	display:none;
-}
-.checkbox label:after {
-	content:'';
-	display:block;
-	height:14px;
-	width:14px;
-	outline:1px solid #939598;
-	position:absolute;
-	top:0;
-	left:0;
-}
-.checkbox input[type=checkbox]:checked + label:after {
-	outline:1px solid #939598;
-	border:2px solid #fff;
-	width:10px;
-	height:10px;
-	background-color:#63849F;
-}*/
 .isDone {
     display: block;
     float: left;
+    position: absolute;
+    top: 20px;
+    left: 20px;
 }
 
 .task .taskName {
@@ -81,20 +167,61 @@ content {
     font-weight: bold;
     max-width: 300px;
     height: 15px;
-    width: 80%;
+    top: 20px;
+    left: 50px;
+    
 }
 
 .task .taskDescription {
     display: block;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    width: 80%;
+    width: 70%;
     height: 50px;
     resize: none;
+    text-overflow: ellipsis;
+    overflow: auto;
+    top: 50px;
+    left: 50px;
 }
 
-.date-time {
-    position: relative;
+input:active, input:focus {
+    outline: none;
+  }
+  input::-moz-focus-inner {
+    border: 0;
+  }
 
+.date-time {
+    display: block;
+    font-size: 10px;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.taskPriority {
+    display: block;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
     font-size: 10px;
     font-weight: bold;
 }
+
+
+
+.save-button {
+    position: absolute;
+    bottom: 20px;
+    width: 60px;
+    left: 75px;
+}
+
+.delete-button {
+    position: absolute;
+    bottom: 20px;
+    width: 60px;
+    left: 150px;
+}
+
