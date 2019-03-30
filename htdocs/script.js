@@ -131,7 +131,7 @@ $(function() {
              '<button class="delete-button"><img src="img/delete.png" style="height: 20px; width: 20px;" alt="Delete"></button>'+
      '</li>';
      $('.task-list').append(taskBox);
-     //$('#task-'+ taskList.currentId + ' > .taskName').focus();
+     $('#task-'+ taskList.currentId + ' > .taskName').focus();
      $('#task-'+ taskList.currentId + ' > .save-button').css('display', 'none');
      // Задача добавлена
      }
