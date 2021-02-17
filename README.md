@@ -5,7 +5,4 @@
 Simple one-page app for creating and saving tasks. 
 Back-end made with Node.js/LowDB, front-end connected to jquery3.3.1. 
 
-Front-end hosted on GitHub Pages. 
-[Ссылка](https://eldarian.github.io/DeathValley/htdocs/index.html "ToDo List App").
-
 plyshevsky.dmitry@gmail.com
