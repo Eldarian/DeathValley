@@ -2,12 +2,10 @@
 
 ## ToDo List
 
-Специально для DevIncubator
+Simple one-page app for creating and saving tasks. 
+Back-end made with Node.js/LowDB, front-end connected to jquery3.3.1. 
 
-Простое одностраничное приложение для создания и хранения задач. 
-Бекэнд построен на Node.js/LowDB, к фронтэнду подключён только jquery3.3.1. 
-
-На GitHub Pages разместить сервер нельзя, но после закрытия alert 404 приложение работает. 
+Front-end hosted on GitHub Pages. 
 [Ссылка](https://eldarian.github.io/DeathValley/htdocs/index.html "ToDo List App").
 
-eldarian3@gmail.com
+plyshevsky.dmitry@gmail.com
